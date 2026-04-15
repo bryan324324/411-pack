@@ -15,69 +15,38 @@
   :root{
     --navy:#1e3a5f;--gold:#c9a84c;--light:#f5f7fa;
     --border:#dde3eb;--text:#1a1a1a;--muted:#6b7280;
-    --red:#e24b4a;--green:#2a6e2a;--card:#ffffff;
-    --radius:12px;--shadow:0 2px 12px rgba(0,0,0,0.08);
+    --card:#ffffff;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,0.08);
   }
   html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--light);color:var(--text)}
   .app{display:flex;flex-direction:column;height:100%;max-width:600px;margin:0 auto}
-
-  /* HEADER */
   .hdr{background:var(--navy);padding:env(safe-area-inset-top,0) 16px 0;flex-shrink:0}
   .hdr-inner{display:flex;align-items:center;gap:12px;padding:12px 0}
   .hdr-logo{height:36px;width:auto;filter:brightness(0) invert(1);opacity:0.95}
   .hdr-title{color:#fff;font-size:18px;font-weight:700;letter-spacing:0.3px}
   .hdr-sub{color:rgba(255,255,255,0.6);font-size:11px;margin-top:1px}
-
-  /* TABS */
+  .accent{height:3px;background:linear-gradient(90deg,var(--gold),var(--navy));flex-shrink:0}
   .tabs{display:flex;background:var(--navy);padding:0 16px;border-bottom:1px solid rgba(255,255,255,0.15);flex-shrink:0}
   .tab{flex:1;padding:10px 8px;text-align:center;color:rgba(255,255,255,0.55);font-size:13px;font-weight:500;cursor:pointer;border-bottom:2.5px solid transparent;transition:all .2s;user-select:none}
   .tab.on{color:#fff;border-bottom-color:var(--gold)}
-
-  /* SCROLL BODY */
   .body{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch}
-
-  /* PROP TYPE */
   .ptabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
   .ptab{padding:6px 13px;border:1.5px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;background:#fff;color:var(--muted);transition:all .15s;user-select:none}
   .ptab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-
-  /* CARD */
   .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
   .card-title{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px}
-
-  /* FIELD */
   .field{margin-bottom:12px}
   .field:last-child{margin-bottom:0}
   .field label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:500}
-  .field input,.field select{
-    width:100%;padding:11px 13px;border:1.5px solid var(--border);
-    border-radius:8px;font-size:15px;color:var(--text);background:#fff;
-    -webkit-appearance:none;appearance:none;outline:none;transition:border .15s;
-    font-family:inherit;
-  }
+  .field input,.field select{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;color:var(--text);background:#fff;-webkit-appearance:none;appearance:none;outline:none;transition:border .15s;font-family:inherit}
   .field input:focus,.field select:focus{border-color:var(--navy)}
   .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-
-  /* BUTTON */
-  .btn{
-    width:100%;padding:14px;background:var(--navy);color:#fff;
-    border:none;border-radius:10px;font-size:16px;font-weight:600;
-    cursor:pointer;margin-top:4px;transition:opacity .15s;
-    font-family:inherit;letter-spacing:0.2px;
-  }
+  .btn{width:100%;padding:14px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;margin-top:4px;transition:opacity .15s;font-family:inherit;letter-spacing:0.2px}
   .btn:active{opacity:0.85}
-
-  /* SOURCES */
   .sources{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
   .src{font-size:10px;padding:3px 8px;border-radius:12px;background:var(--light);color:var(--muted);border:1px solid var(--border);font-weight:500}
-
-  /* INFO BOX */
   .info{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
   .info strong{color:var(--text);font-weight:600}
-
-  /* GOLD ACCENT LINE */
-  .accent{height:3px;background:linear-gradient(90deg,var(--gold),var(--navy));border-radius:0 0 3px 3px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -92,14 +61,11 @@
     </div>
   </div>
   <div class="accent"></div>
-
   <div class="tabs">
     <div class="tab on" onclick="setMode('addr',this)">Address Lookup</div>
     <div class="tab" onclick="setMode('filter',this)">Browse for Client</div>
   </div>
-
   <div class="body">
-    <!-- ADDRESS MODE -->
     <div id="addr-panel">
       <div class="card">
         <div class="card-title">Property Type</div>
@@ -110,7 +76,6 @@
           <div class="ptab" onclick="setPT(this,'land')">Land</div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">Property Address</div>
         <div class="field">
@@ -128,8 +93,6 @@
         </div>
       </div>
     </div>
-
-    <!-- FILTER MODE -->
     <div id="filter-panel" style="display:none">
       <div class="card">
         <div class="card-title">Property Type</div>
@@ -140,7 +103,6 @@
           <div class="ptab" onclick="setPT(this,'land')">Land</div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">Location</div>
         <div class="field">
@@ -151,20 +113,16 @@
           <div class="field"><label>Max Price</label><input type="text" id="f-max" placeholder="$500,000" inputmode="numeric"></div>
         </div>
       </div>
-
       <div class="card" id="res-card">
         <div class="card-title">Details</div>
         <div class="g3">
-          <div class="field">
-            <label>Min Beds</label>
+          <div class="field"><label>Min Beds</label>
             <select id="f-beds"><option value="">Any</option><option>1+</option><option>2+</option><option>3+</option><option>4+</option><option>5+</option></select>
           </div>
-          <div class="field">
-            <label>Min Baths</label>
+          <div class="field"><label>Min Baths</label>
             <select id="f-baths"><option value="">Any</option><option>1+</option><option>2+</option><option>3+</option><option>4+</option></select>
           </div>
-          <div class="field">
-            <label>Min Sqft</label>
+          <div class="field"><label>Min Sqft</label>
             <input type="text" id="f-sqft" placeholder="1,000" inputmode="numeric">
           </div>
         </div>
@@ -177,122 +135,100 @@
     </div>
   </div>
 </div>
-
 <script>
-// ── CONFIG ────────────────────────────────────────────────────────────────────
-// Your Value Estimates project URL — update this after creating the project
-const PROJECT_URL = 'https://claude.ai/project/value-estimates';
+const PROJECT_URL = "https://claude.ai/project/019d35b3-1b3b-75c8-b318-a2af976f6097";
+let mode='addr', propType='residential';
 
-let mode = 'addr';
-let propType = 'residential';
-
-// ── COUNTY DETECTION ──────────────────────────────────────────────────────────
-function detectCounty(addr) {
-  const a = addr.toLowerCase();
-  if (/miramar|pembroke|fort lauderdale|hollywood fl|pompano|deerfield|broward|3302[3-9]|3306|3307/.test(a)) return 'Broward';
-  if (/west palm|boca raton|delray|boynton|jupiter fl|palm beach/.test(a)) return 'Palm Beach';
-  if (/naples fl|marco island|collier/.test(a)) return 'Collier';
-  if (/fort myers|cape coral|lee county/.test(a)) return 'Lee';
-  if (/key west|key largo|marathon|islamorada|monroe/.test(a)) return 'Monroe';
-  if (/orlando|kissimmee/.test(a)) return 'Orange';
+function detectCounty(addr){
+  const a=addr.toLowerCase();
+  if(/miramar|pembroke|fort lauderdale|hollywood fl|pompano|deerfield|broward|3302[3-9]|3306|3307/.test(a)) return 'Broward';
+  if(/west palm|boca raton|delray|boynton|jupiter fl|palm beach/.test(a)) return 'Palm Beach';
+  if(/naples fl|marco island|collier/.test(a)) return 'Collier';
+  if(/fort myers|cape coral|lee county/.test(a)) return 'Lee';
+  if(/key west|key largo|marathon|islamorada|monroe/.test(a)) return 'Monroe';
+  if(/orlando|kissimmee/.test(a)) return 'Orange';
   return 'Miami-Dade';
 }
-
-const PA_URLS = {
+const PA={
   'Miami-Dade':'https://www.miamidadepa.gov/pa/real-estate/property-search.page',
   'Broward':'https://bcpa.net/RecSearch.asp','Palm Beach':'https://www.pbcgov.org/papa/Propsearch.aspx',
   'Orange':'https://www.ocpafl.org/searches/ParcelSearch.aspx','Collier':'https://www.collierappraiser.com',
   'Lee':'https://www.leepa.org','Monroe':'https://www.mcpafl.org'
 };
-const TAX_URLS = {
+const TAX={
   'Miami-Dade':'https://mdctaxcollector.gov/services/real-estate-tax',
   'Broward':'https://broward.county-taxes.com/public','Palm Beach':'https://pbctax.com/tax-search/',
   'Orange':'https://octaxcol.com/search','Collier':'https://www.colliertaxcollector.com',
   'Lee':'https://leetc.com','Monroe':'https://www.monroetaxcollector.com'
 };
 
-// ── PROMPT BUILDERS ───────────────────────────────────────────────────────────
-function buildAddrPrompt(addr) {
-  const county = detectCounty(addr);
-  const isComm = propType === 'commercial' || propType === 'multifamily';
-  return `Property search: ${addr}
-
-Pull ALL fields from Zillow, Redfin, Realtor.com, Trulia${isComm ? ', Crexi, LoopNet' : ''}, ${county} County PA, and ${county} County Tax Collector:
-
-- List price · Days on market · Beds/baths/living sqft · Lot size sqft · Year built
-- HOA (yes/no + amount) · Annual taxes · Flood zone · Owner name(s)
-- Listing dates · Price change history · Status change history
-- Listing agent: full name, license #, brokerage, phone, email
-- Open house dates · AVM/estimated value from each platform
-
-County PA: ${PA_URLS[county]}
-County Tax: ${TAX_URLS[county]}
-
-Flag every field where 2+ sources show different values — show all conflicting values side by side.
-After results, ask if I want to run comps.`;
+function buildAddrPrompt(addr){
+  const county=detectCounty(addr);
+  const isComm=propType==='commercial'||propType==='multifamily';
+  return `Property search: ${addr}\n\nPull ALL fields from Zillow, Redfin, Realtor.com, Trulia${isComm?', Crexi, LoopNet':''}, ${county} County PA, and ${county} County Tax Collector:\n\n- List price, days on market, beds/baths/living sqft, lot size, year built\n- HOA (yes/no + amount), annual taxes, flood zone, owner name(s)\n- Listing dates, price change history, status change history\n- Listing agent: full name, license #, brokerage, phone, email\n- Open house dates, AVM/estimated value from each platform\n\nCounty PA: ${PA[county]}\nCounty Tax: ${TAX[county]}\n\nFlag every field where 2+ sources show different values — show all conflicting values side by side.\nAfter results, ask if I want to run comps.`;
 }
 
-function buildFilterPrompt() {
-  const loc = document.getElementById('f-loc').value.trim();
-  const min = document.getElementById('f-min').value;
-  const max = document.getElementById('f-max').value;
-  const beds = document.getElementById('f-beds').value;
-  const baths = document.getElementById('f-baths').value;
-  const sqft = document.getElementById('f-sqft').value;
-  const notes = document.getElementById('f-notes').value;
-  const isComm = propType === 'commercial' || propType === 'multifamily';
-  let p = `Client property search — ${propType} in ${loc}`;
-  if (min||max) p += `, price ${min||'any'} to ${max||'any'}`;
-  if (beds) p += `, ${beds} beds`;
-  if (baths) p += `, ${baths} baths`;
-  if (sqft) p += `, min ${sqft} sqft`;
-  if (notes) p += `. Client notes: ${notes}`;
-  p += `.\n\nSearch Zillow, Redfin, Realtor.com, Trulia${isComm?', Crexi, LoopNet':''} for matching listings. Return per listing: address, list price, beds/baths/sqft, year built, HOA, DOM, listing agent name + phone, AVM estimate, red flags. Flag conflicts across sources.`;
+function buildFilterPrompt(){
+  const loc=document.getElementById('f-loc').value.trim();
+  const min=document.getElementById('f-min').value;
+  const max=document.getElementById('f-max').value;
+  const beds=document.getElementById('f-beds').value;
+  const baths=document.getElementById('f-baths').value;
+  const sqft=document.getElementById('f-sqft').value;
+  const notes=document.getElementById('f-notes').value;
+  const isComm=propType==='commercial'||propType==='multifamily';
+  let p=`Client property search — ${propType} in ${loc}`;
+  if(min||max) p+=`, price ${min||'any'} to ${max||'any'}`;
+  if(beds) p+=`, ${beds} beds`;
+  if(baths) p+=`, ${baths} baths`;
+  if(sqft) p+=`, min ${sqft} sqft`;
+  if(notes) p+=`. Client notes: ${notes}`;
+  p+=`.\n\nSearch Zillow, Redfin, Realtor.com, Trulia${isComm?', Crexi, LoopNet':''} for matching listings. Return per listing: address, list price, beds/baths/sqft, year built, HOA, DOM, listing agent name + phone, AVM estimate, red flags. Flag conflicts across sources.`;
   return p;
 }
 
-// ── NAVIGATION ────────────────────────────────────────────────────────────────
-function openClaude(prompt) {
-  const url = PROJECT_URL + '?q=' + encodeURIComponent(prompt);
-  window.open(url, '_blank');
+function openClaude(prompt){
+  window.open(PROJECT_URL,'_blank');
+  setTimeout(()=>{
+    try{ navigator.clipboard.writeText(prompt); }catch(e){}
+  },800);
 }
 
-function runAddr() {
-  const addr = document.getElementById('addr-in').value.trim();
-  if (!addr) { document.getElementById('addr-in').focus(); return; }
+function runAddr(){
+  const addr=document.getElementById('addr-in').value.trim();
+  if(!addr){document.getElementById('addr-in').focus();return;}
   openClaude(buildAddrPrompt(addr));
 }
 
-function runFilter() {
-  const loc = document.getElementById('f-loc').value.trim();
-  if (!loc) { document.getElementById('f-loc').focus(); return; }
+function runFilter(){
+  const loc=document.getElementById('f-loc').value.trim();
+  if(!loc){document.getElementById('f-loc').focus();return;}
   openClaude(buildFilterPrompt());
 }
 
-function setMode(m, el) {
-  mode = m;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+function setMode(m,el){
+  mode=m;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
   el.classList.add('on');
-  document.getElementById('addr-panel').style.display = m==='addr' ? 'block' : 'none';
-  document.getElementById('filter-panel').style.display = m==='filter' ? 'block' : 'none';
+  document.getElementById('addr-panel').style.display=m==='addr'?'block':'none';
+  document.getElementById('filter-panel').style.display=m==='filter'?'block':'none';
 }
 
-function setPT(el, t) {
-  propType = t;
-  el.closest('.ptabs').querySelectorAll('.ptab').forEach(x => x.classList.remove('on'));
+function setPT(el,t){
+  propType=t;
+  el.closest('.ptabs').querySelectorAll('.ptab').forEach(x=>x.classList.remove('on'));
   el.classList.add('on');
-  const rc = document.getElementById('res-card');
-  if (rc) rc.style.display = (t==='residential'||t==='multifamily') ? 'block' : 'none';
-  const srcs = document.getElementById('addr-sources');
-  if (srcs) {
-    const commSrcs = (t==='commercial'||t==='multifamily') ? '<span class="src">Crexi</span><span class="src">LoopNet</span>' : '';
-    srcs.innerHTML = '<span class="src">Zillow</span><span class="src">Redfin</span><span class="src">Realtor.com</span><span class="src">Trulia</span><span class="src">County PA</span><span class="src">County Tax</span>' + commSrcs + '<span class="src">HouseCanary (manual)</span>';
+  const rc=document.getElementById('res-card');
+  if(rc) rc.style.display=(t==='residential'||t==='multifamily')?'block':'none';
+  const srcs=document.getElementById('addr-sources');
+  if(srcs){
+    const comm=(t==='commercial'||t==='multifamily')?'<span class="src">Crexi</span><span class="src">LoopNet</span>':'';
+    srcs.innerHTML='<span class="src">Zillow</span><span class="src">Redfin</span><span class="src">Realtor.com</span><span class="src">Trulia</span><span class="src">County PA</span><span class="src">County Tax</span>'+comm+'<span class="src">HouseCanary (manual)</span>';
   }
 }
 
-// ── SERVICE WORKER ────────────────────────────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW:', e));
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(e=>console.log('SW:',e));
 }
 </script>
 </body>
