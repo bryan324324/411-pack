@@ -47,6 +47,7 @@
   .src{font-size:10px;padding:3px 8px;border-radius:12px;background:var(--light);color:var(--muted);border:1px solid var(--border);font-weight:500}
   .info{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
   .info strong{color:var(--text);font-weight:600}
+  .ptip{font-size:10px;color:var(--muted);margin-top:6px;font-style:italic}
 </style>
 </head>
 <body>
@@ -56,7 +57,7 @@
       <img class="hdr-logo" src="icon-192.png" alt="CFS">
       <div>
         <div class="hdr-title">411 Pack</div>
-        <div class="hdr-sub">Capital Fund Services &middot; Property Intelligence</div>
+        <div class="hdr-sub">Capital Funds Services LLC &middot; Property Intelligence</div>
       </div>
     </div>
   </div>
@@ -66,20 +67,25 @@
     <div class="tab" onclick="setMode('filter',this)">Browse for Client</div>
   </div>
   <div class="body">
+
+    <!-- ADDRESS MODE -->
     <div id="addr-panel">
       <div class="card">
         <div class="card-title">Property Type</div>
         <div class="ptabs">
           <div class="ptab on" onclick="setPT(this,'residential')">Residential</div>
-          <div class="ptab" onclick="setPT(this,'multifamily')">Multifamily</div>
+          <div class="ptab" onclick="setPT(this,'multifamily')">Multifamily 5+</div>
           <div class="ptab" onclick="setPT(this,'commercial')">Commercial</div>
           <div class="ptab" onclick="setPT(this,'land')">Land</div>
         </div>
+        <div class="ptip" id="addr-tip">Includes single family, duplex, triplex &amp; fourplex</div>
       </div>
       <div class="card">
         <div class="card-title">Property Address</div>
         <div class="field">
-          <input type="text" id="addr-in" placeholder="19531 NW 1st Pl, Miami Gardens, FL 33169" autocomplete="street-address" enterkeyhint="search" onkeydown="if(event.key==='Enter')runAddr()">
+          <input type="text" id="addr-in" placeholder="19531 NW 1st Pl, Miami Gardens, FL 33169"
+            autocomplete="street-address" enterkeyhint="search"
+            onkeydown="if(event.key==='Enter')runAddr()">
         </div>
         <button class="btn" onclick="runAddr()">Search &rarr;</button>
         <div class="info">
@@ -93,15 +99,18 @@
         </div>
       </div>
     </div>
+
+    <!-- FILTER MODE -->
     <div id="filter-panel" style="display:none">
       <div class="card">
         <div class="card-title">Property Type</div>
         <div class="ptabs">
           <div class="ptab on" onclick="setPT(this,'residential')">Residential</div>
-          <div class="ptab" onclick="setPT(this,'multifamily')">Multifamily</div>
+          <div class="ptab" onclick="setPT(this,'multifamily')">Multifamily 5+</div>
           <div class="ptab" onclick="setPT(this,'commercial')">Commercial</div>
           <div class="ptab" onclick="setPT(this,'land')">Land</div>
         </div>
+        <div class="ptip" id="filter-tip">Includes single family, duplex, triplex &amp; fourplex</div>
       </div>
       <div class="card">
         <div class="card-title">Location</div>
@@ -133,11 +142,19 @@
         <button class="btn" onclick="runFilter()">Search &rarr;</button>
       </div>
     </div>
+
   </div>
 </div>
 <script>
-const PROJECT_URL = "https://claude.ai/project/019d35b3-1b3b-75c8-b318-a2af976f6097";
-let mode='addr', propType='residential';
+const PROJECT_URL="https://claude.ai/project/019d35b3-1b3b-75c8-b318-a2af976f6097";
+let mode='addr',propType='residential';
+
+const PT_TIPS={
+  'residential':'Includes single family, duplex, triplex & fourplex',
+  'multifamily':'Apartment buildings with 5+ units — searched on Crexi & LoopNet',
+  'commercial':'Office, retail, industrial, mixed-use',
+  'land':'Vacant lots and development parcels'
+};
 
 function detectCounty(addr){
   const a=addr.toLowerCase();
@@ -165,7 +182,9 @@ const TAX={
 function buildAddrPrompt(addr){
   const county=detectCounty(addr);
   const isComm=propType==='commercial'||propType==='multifamily';
-  return `Property search: ${addr}\n\nPull ALL fields from Zillow, Redfin, Realtor.com, Trulia${isComm?', Crexi, LoopNet':''}, ${county} County PA, and ${county} County Tax Collector:\n\n- List price, days on market, beds/baths/living sqft, lot size, year built\n- HOA (yes/no + amount), annual taxes, flood zone, owner name(s)\n- Listing dates, price change history, status change history\n- Listing agent: full name, license #, brokerage, phone, email\n- Open house dates, AVM/estimated value from each platform\n\nCounty PA: ${PA[county]}\nCounty Tax: ${TAX[county]}\n\nFlag every field where 2+ sources show different values — show all conflicting values side by side.\nAfter results, ask if I want to run comps.`;
+  const typeLabel=propType==='residential'?'residential (1-4 units, including duplex/triplex/fourplex)':
+    propType==='multifamily'?'multifamily apartment building (5+ units)':propType;
+  return `Property search: ${addr}\nProperty type: ${typeLabel}\n\nPull ALL fields from Zillow, Redfin, Realtor.com, Trulia${isComm?', Crexi, LoopNet':''}, ${county} County PA, and ${county} County Tax Collector:\n\n- List price, days on market, beds/baths/living sqft, lot size, year built\n- HOA (yes/no + amount), annual taxes, flood zone, owner name(s)\n- Listing dates, price change history, status change history\n- Listing agent: full name, license #, brokerage, phone, email\n- Open house dates, AVM/estimated value from each platform\n\nCounty PA: ${PA[county]}\nCounty Tax: ${TAX[county]}\n\nFlag every field where 2+ sources show different values — show all conflicting values side by side.\nAfter results, ask if I want to run comps.`;
 }
 
 function buildFilterPrompt(){
@@ -177,7 +196,9 @@ function buildFilterPrompt(){
   const sqft=document.getElementById('f-sqft').value;
   const notes=document.getElementById('f-notes').value;
   const isComm=propType==='commercial'||propType==='multifamily';
-  let p=`Client property search — ${propType} in ${loc}`;
+  const typeLabel=propType==='residential'?'residential 1-4 units (including duplex/triplex/fourplex)':
+    propType==='multifamily'?'multifamily 5+ units':propType;
+  let p=`Client property search — ${typeLabel} in ${loc}`;
   if(min||max) p+=`, price ${min||'any'} to ${max||'any'}`;
   if(beds) p+=`, ${beds} beds`;
   if(baths) p+=`, ${baths} baths`;
@@ -189,9 +210,7 @@ function buildFilterPrompt(){
 
 function openClaude(prompt){
   window.open(PROJECT_URL,'_blank');
-  setTimeout(()=>{
-    try{ navigator.clipboard.writeText(prompt); }catch(e){}
-  },800);
+  setTimeout(()=>{try{navigator.clipboard.writeText(prompt);}catch(e){}},800);
 }
 
 function runAddr(){
@@ -218,8 +237,15 @@ function setPT(el,t){
   propType=t;
   el.closest('.ptabs').querySelectorAll('.ptab').forEach(x=>x.classList.remove('on'));
   el.classList.add('on');
+  // Update tooltip in whichever panel is visible
+  ['addr-tip','filter-tip'].forEach(id=>{
+    const el2=document.getElementById(id);
+    if(el2) el2.textContent=PT_TIPS[t]||'';
+  });
+  // Show/hide details card
   const rc=document.getElementById('res-card');
   if(rc) rc.style.display=(t==='residential'||t==='multifamily')?'block':'none';
+  // Update source badges
   const srcs=document.getElementById('addr-sources');
   if(srcs){
     const comm=(t==='commercial'||t==='multifamily')?'<span class="src">Crexi</span><span class="src">LoopNet</span>':'';
